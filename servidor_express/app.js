@@ -1,29 +1,28 @@
 const express = require('express');
+const fs = require('fs');
+const {ProductManager}= require('./productManager');
 
-const PUERTO = 8080;
+const app = express();
+const port = 8080;
 
-const servidor = express();
+const Pmanager = new ProductManager;
+app.get('/products', async (req,res)=>{
 
-servidor.get('/', (req,res) => {
-    res.send ('Servidor Express');
+    const obtenerproductos = await Pmanager.cargarElArchivo();
+    const limit = req.query.limit;
+    if(limit) return res.send(obtenerproductos.slice(0,limit))
+
+    else return res.send(obtenerproductos)
+
+
 });
 
+app.get('/products/:id', async (req,res)=>{
+    const id = req.query.id;
+    const obtenerproductos = await Pmanager.cargarElArchivo();
 
-servidor.get('/producto1/:regla', (req,res) => {
-    res.send (`<h1>"regla" , "30 cm" , 50 , "www.regla.com" , 1100 , 23 </h1> ${req.params.regla}`);
+    res.send(obtenerproductos.find(e =>parseInt(e.id) == parseInt( req.params.id)));
 });
-
-servidor.get('/producto2/:escuadra', (req,res) => {
-    res.send (`<h1>"escuadra" , "triangular" , 12, "www.escuadra.com" , 100 , 12 </h1> ${req.params.escuadra}`);
-});
-
-servidor.get('/producto3/:lapiz', (req,res) => {
-    res.send (`<h1>"lapiz" , "de color" , 11, "www.lapizdecolores.com" , 1200 , 6</h1>${req.params.lapiz}`);
-});
-
-
-
-
-servidor.listen(PUERTO, () => {
-    console.log(`servidor backend activo en puerto ${PUERTO}`);
-});
+app.listen(port, ()=>{
+    console.log('El servidor funciona en el puerto' , port );
+})

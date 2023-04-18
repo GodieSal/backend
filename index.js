@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const getProducts = []
 
 class ProductManager{
@@ -48,13 +50,14 @@ addProduct(){
     }
 
      getById(id){
-        const getProducts =this.getAll()
-        if(!this.checkLength(getProducts)){
-            return
-        }
-        let productos = getProducts.find(element => element.id == id)
-        return productos ? productos : null
+       const obtenerproductos = JSON.parse(fs.readFileSync('productos.json', 'utf-8'));
+        obtenerproductos.map((element)=>{ if(element.id == id)
+            console.log(element) })
+
+
     }
+
+
     guardaEnArchivo(){
         try{
             fs.writeFileSync('productos.json', JSON.stringify(getProducts));
@@ -120,6 +123,13 @@ let producto2 = new ProductManager("escuadra" , "triangular" , 12, "www.escuadra
 producto2.addProduct();
 let producto3 = new ProductManager("lapiz" , "de color" , 11, "www.lapizdecolores.com" , 1200 , 6);
 producto3.addProduct();
+producto4.addProduct();
+producto4.guardaEnArchivo();
+producto4.cargarElArchivo();
+
+producto1.modificarArchivo(1,{title:"Goma" , description:"azul", code:"2331" , price:"234" , thumbnail:"www.gomaazul.com", stock:"111"});
+
+    producto2.borrarProductos(2);
     
 
 
