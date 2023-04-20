@@ -6,7 +6,7 @@ const app = express();
 const port = 8080;
 
 const Pmanager = new ProductManager;
-app.get('/products', async (req,res)=>{
+app.get('/productos', async (req,res)=>{
 
     const obtenerproductos = await Pmanager.cargarElArchivo();
     const limit = req.query.limit;
@@ -17,7 +17,7 @@ app.get('/products', async (req,res)=>{
 
 });
 
-app.get('/products/:id', async (req,res)=>{
+app.get('/productos/:id', async (req,res)=>{
     const id = req.query.id;
     const obtenerproductos = await Pmanager.cargarElArchivo();
 

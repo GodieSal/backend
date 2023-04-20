@@ -16,5 +16,8 @@
     "url": "https://github.com/GodieSal/backend/issues"
   },
   "homepage": "https://github.com/GodieSal/backend#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
 }
